@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -11,6 +10,8 @@ import OrdersPage from "./Pages/admin/order/OrdersPage";
 import FoodDetailsPage from "./Pages/foodDetails/FoodDetailsPage";
 import LoginPage from "./Pages/login/LoginPage";
 import SignUpPage from "./Pages/signUp/SignUpPage";
+import Footer from "./components/Footer/Footer";
+import { ToastContainer } from "react-toastify";
 
 // Admin Components
 // import Layout from "./admin/Layout";
@@ -71,6 +72,8 @@ function App() {
           <Route path="orders" element={<OrdersPage />} />
         </Route>
       </Routes>
+      <ToastContainer />
+      <Footer />
     </div>
   );
 }
