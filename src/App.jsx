@@ -13,12 +13,6 @@ import SignUpPage from "./Pages/signUp/SignUpPage";
 import Footer from "./components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
 
-// Admin Components
-// import Layout from "./admin/Layout";
-// import AddItem from "./admin/AddItem";
-// import ListItems from "./admin/ListItems";
-// import Orders from "./admin/Orders";
-
 function App() {
   return (
     <div className="app">
