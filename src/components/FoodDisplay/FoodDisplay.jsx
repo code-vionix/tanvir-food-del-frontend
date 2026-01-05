@@ -1,4 +1,3 @@
-import React from "react";
 import { useFoodItem } from "@/Contex/StoreContex";
 import FoodItems from "../FoodItems/FoodItems";
 

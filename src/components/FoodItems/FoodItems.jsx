@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { assets } from "@/Assets/assets";
 import { useFoodItem } from "@/Contex/StoreContex";
+import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const FoodItems = ({ id, name, image, price, description, category }) => {
@@ -49,7 +50,7 @@ const FoodItems = ({ id, name, image, price, description, category }) => {
           </div>
         </div>
         <CardHeader>
-          <CardTitle>{name}</CardTitle>
+          <Link to={`/details/${id}`}>{name}</Link>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent className="flex justify-between">

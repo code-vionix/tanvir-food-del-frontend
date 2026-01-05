@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Star,
   Clock,
@@ -10,11 +10,16 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useParams } from "react-router-dom";
+import { useFoodItem } from "@/Contex/StoreContex";
 
 const FoodDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
+  const { food_list } = useFoodItem();
+  const [foodData, setFoodData] = useState({});
+  const { id } = useParams();
 
-  const foodData = {
+  const foodDatat = {
     name: "Mediterranean Quinoa Salad",
     price: 18.5,
     rating: 4.8,
@@ -33,14 +38,27 @@ const FoodDetailsPage = () => {
     ],
   };
 
+  useEffect(() => {
+    const foodData = food_list.find((f) => f._id === id);
+    setFoodData(foodData);
+  }, [food_list, id]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* LEFT: Hero Image with Gradient */}
         <div className="relative group overflow-hidden rounded-3xl shadow-2xl h-[400px] md:h-[600px]">
           <img
-            src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=1000"
-            alt={foodData.name}
+            src={foodData?.image}
+            alt={foodData?.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {/* Gradient Overlay */}
@@ -49,10 +67,10 @@ const FoodDetailsPage = () => {
           {/* Badges on Image */}
           <div className="absolute bottom-6 left-6 flex gap-3">
             <span className="flex items-center gap-1 bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium border border-white/30">
-              <Clock size={16} /> {foodData.prepTime}
+              <Clock size={16} /> {foodData?.prepTime}
             </span>
             <span className="flex items-center gap-1 bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium border border-white/30">
-              <Flame size={16} /> {foodData.calories}
+              <Flame size={16} /> {foodData?.calories}
             </span>
           </div>
         </div>
@@ -63,14 +81,14 @@ const FoodDetailsPage = () => {
           <div>
             <div className="flex flex-col gap-3 justify-between items-start">
               <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
-                {foodData.name}
+                {foodData?.name}
               </h1>
 
               <div className="flex items-center gap-1 bg-orange-50 px-3 py-1 rounded-lg">
                 <Star className="text-orange-500 fill-orange-500" size={18} />
 
                 <span className="font-bold text-orange-700">
-                  {foodData.rating}
+                  {foodData?.rating}
                   <span className="text-gray-500 ml-4 bg-transparent">
                     ({Math.round(Math.random() * 500)}) Verified Customer
                     Reviews
@@ -81,11 +99,11 @@ const FoodDetailsPage = () => {
           </div>
 
           <p className="text-2xl font-bold text-orange-600">
-            ${foodData.price.toFixed(2)}
+            ${foodData?.price?.toFixed(2)}
           </p>
 
           <p className="text-gray-600 text-lg leading-relaxed border-l-4 border-orange-500 pl-4">
-            {foodData.description}
+            {foodData?.description}
           </p>
 
           {/* Ingredients Section */}
@@ -94,13 +112,13 @@ const FoodDetailsPage = () => {
               <Leaf className="text-green-600" /> Key Ingredients
             </h3>
             <div className="flex flex-wrap gap-3">
-              {foodData.ingredients.map((item) => (
+              {foodData?.ingredients?.map((item) => (
                 <div
                   key={item.id}
                   className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full border border-gray-200 hover:border-orange-300 transition-colors"
                 >
                   <span className="text-sm font-medium text-gray-700">
-                    {item.name}
+                    {item?.name}
                   </span>
                 </div>
               ))}
