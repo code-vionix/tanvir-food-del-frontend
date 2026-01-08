@@ -34,15 +34,11 @@ const AddItemPage = () => {
       image: imageFile,
     };
 
-    console.log("========== FORM SUBMIT ==========");
     console.log(finalData);
-    console.log("Image:", imageFile);
-    console.log("Ingredients:", data.ingredients);
-    console.log("Is Vegan:", data.isVegan);
-    console.log("================================");
 
     // reset();
     setPreview(null);
+    reset();
   };
 
   // ✅ Proper image register handling
@@ -110,70 +106,71 @@ const AddItemPage = () => {
             className="p-2 border rounded outline-none focus:ring-2 focus:ring-orange-500"
           />
         </div>
+        <div className="flex gap-2">
+          {/* CATEGORY & PRICE */}
+          <div className="flex gap-6 flex-wrap">
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Category</label>
+              <select
+                {...register("category")}
+                className="p-2 border rounded w-40"
+              >
+                <option value="Salad">Salad</option>
+                <option value="Rolls">Rolls</option>
+                <option value="Deserts">Deserts</option>
+                <option value="Sandwich">Sandwich</option>
+              </select>
+            </div>
 
-        {/* CATEGORY & PRICE */}
-        <div className="flex gap-6 flex-wrap">
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Category</label>
-            <select
-              {...register("category")}
-              className="p-2 border rounded w-40"
-            >
-              <option value="Salad">Salad</option>
-              <option value="Rolls">Rolls</option>
-              <option value="Deserts">Deserts</option>
-              <option value="Sandwich">Sandwich</option>
-            </select>
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Price</label>
+              <input
+                type="number"
+                {...register("price", { required: true })}
+                className="p-2 border rounded w-32"
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Price</label>
-            <input
-              type="number"
-              {...register("price", { required: true })}
-              className="p-2 border rounded w-32"
-            />
-          </div>
-        </div>
+          {/* RATING & REVIEWS */}
+          <div className="flex gap-6 flex-wrap">
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Rating</label>
+              <input
+                type="number"
+                step="0.1"
+                {...register("rating")}
+                className="p-2 border rounded w-32"
+              />
+            </div>
 
-        {/* RATING & REVIEWS */}
-        <div className="flex gap-6 flex-wrap">
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Rating</label>
-            <input
-              type="number"
-              step="0.1"
-              {...register("rating")}
-              className="p-2 border rounded w-32"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Reviews</label>
-            <input
-              type="number"
-              {...register("reviews")}
-              className="p-2 border rounded w-32"
-            />
-          </div>
-        </div>
-
-        {/* CALORIES & PREP TIME */}
-        <div className="flex gap-6 flex-wrap">
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Calories</label>
-            <input
-              {...register("calories")}
-              className="p-2 border rounded w-40"
-            />
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Reviews</label>
+              <input
+                type="number"
+                {...register("reviews")}
+                className="p-2 border rounded w-32"
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Prep Time</label>
-            <input
-              {...register("prepTime")}
-              className="p-2 border rounded w-40"
-            />
+          {/* CALORIES & PREP TIME */}
+          <div className="flex gap-6 flex-wrap">
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Calories</label>
+              <input
+                {...register("calories")}
+                className="p-2 border rounded w-40"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Prep Time</label>
+              <input
+                {...register("prepTime")}
+                className="p-2 border rounded w-40"
+              />
+            </div>
           </div>
         </div>
 
@@ -223,7 +220,7 @@ const AddItemPage = () => {
         {/* SUBMIT */}
         <button
           type="submit"
-          className="bg-orange-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-orange-700 transition"
+          className="bg-orange-600 text-white active:scale-95 px-10 py-3 rounded-lg font-bold hover:bg-orange-700 transition"
         >
           ADD PRODUCT
         </button>
