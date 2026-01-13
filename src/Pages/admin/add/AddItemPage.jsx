@@ -1,22 +1,30 @@
 import { useState } from "react";
 import { CloudUpload, Plus, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { createFood } from "@/services/food.service";
 
 const AddItemPage = () => {
   const [preview, setPreview] = useState(null);
 
-  const { register, handleSubmit, control, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm({
     defaultValues: {
-      name: "TERW",
-      description: "WT",
+      name: "",
+      description: "",
       category: "Salad",
-      price: "434",
-      rating: "4",
-      reviews: "34",
-      calories: "434",
-      prepTime: "34",
+      price: "",
+      rating: "",
+      reviews: "",
+      calories: "",
+      prepTime: "",
       isVegan: false,
-      ingredients: [{ name: "ertet" }],
+      ingredients: [{ name: "" }],
     },
   });
 
@@ -25,27 +33,34 @@ const AddItemPage = () => {
     name: "ingredients",
   });
 
-  // ✅ SUBMIT HANDLER (React 18 safe)
-  const onSubmit = (data) => {
-    const imageFile = data.image?.[0] || null;
-
-    const finalData = {
-      ...data,
-      image: imageFile,
-    };
-
-    console.log(finalData);
-
-    // reset();
-    setPreview(null);
-    reset();
-  };
-
-  // ✅ Proper image register handling
   const { onChange: onImageChange, ...imageRegister } = register("image");
 
+  // SUBMIT HANDLER
+  const onSubmit = async (data) => {
+    try {
+      const imageFile = data.image?.[0] || null;
+      const finalData = { ...data, image: imageFile };
+      console.log(finalData);
+
+      const res = await createFood(finalData);
+
+      if (res.success) {
+        alert("Food added successfully!");
+        reset();
+        setPreview(null);
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Food creation failed!");
+    }
+  };
+
+  // Image preview
+  const imageFile = watch("image")?.[0];
+  if (imageFile && !preview) setPreview(URL.createObjectURL(imageFile));
+
   return (
-    <div className="max-w-2xl p-4">
+    <div className="max-w-2xl mx-auto p-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 text-gray-700"
@@ -53,7 +68,6 @@ const AddItemPage = () => {
         {/* IMAGE UPLOAD */}
         <div>
           <p className="mb-2 font-semibold">Upload Image</p>
-
           <label
             htmlFor="image"
             className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100"
@@ -80,9 +94,7 @@ const AddItemPage = () => {
               onChange={(e) => {
                 onImageChange(e);
                 const file = e.target.files[0];
-                if (file) {
-                  setPreview(URL.createObjectURL(file));
-                }
+                if (file) setPreview(URL.createObjectURL(file));
               }}
             />
           </label>
@@ -92,85 +104,90 @@ const AddItemPage = () => {
         <div className="flex flex-col gap-2">
           <label className="font-semibold">Product Name</label>
           <input
-            {...register("name", { required: true })}
+            {...register("name", { required: "Product name required" })}
             className="p-2 border rounded outline-none focus:ring-2 focus:ring-orange-500"
           />
+          {errors.name && (
+            <p className="text-sm text-red-500">{errors.name.message}</p>
+          )}
         </div>
 
         {/* DESCRIPTION */}
         <div className="flex flex-col gap-2">
           <label className="font-semibold">Description</label>
           <textarea
-            {...register("description", { required: true })}
+            {...register("description", { required: "Description required" })}
             rows={4}
             className="p-2 border rounded outline-none focus:ring-2 focus:ring-orange-500"
           />
+          {errors.description && (
+            <p className="text-sm text-red-500">{errors.description.message}</p>
+          )}
         </div>
-        <div className="flex gap-2">
-          {/* CATEGORY & PRICE */}
-          <div className="flex gap-6 flex-wrap">
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Category</label>
-              <select
-                {...register("category")}
-                className="p-2 border rounded w-40"
-              >
-                <option value="Salad">Salad</option>
-                <option value="Rolls">Rolls</option>
-                <option value="Deserts">Deserts</option>
-                <option value="Sandwich">Sandwich</option>
-              </select>
-            </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Price</label>
-              <input
-                type="number"
-                {...register("price", { required: true })}
-                className="p-2 border rounded w-32"
-              />
-            </div>
+        {/* CATEGORY & PRICE */}
+        <div className="flex gap-6 flex-wrap">
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Category</label>
+            <select
+              {...register("category")}
+              className="p-2 border rounded w-40"
+            >
+              <option value="Salad">Salad</option>
+              <option value="Rolls">Rolls</option>
+              <option value="Deserts">Deserts</option>
+              <option value="Sandwich">Sandwich</option>
+            </select>
           </div>
 
-          {/* RATING & REVIEWS */}
-          <div className="flex gap-6 flex-wrap">
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Rating</label>
-              <input
-                type="number"
-                step="0.1"
-                {...register("rating")}
-                className="p-2 border rounded w-32"
-              />
-            </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Price</label>
+            <input
+              type="number"
+              {...register("price", { required: true })}
+              className="p-2 border rounded w-32"
+            />
+          </div>
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Reviews</label>
-              <input
-                type="number"
-                {...register("reviews")}
-                className="p-2 border rounded w-32"
-              />
-            </div>
+        {/* RATING & REVIEWS */}
+        <div className="flex gap-6 flex-wrap">
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Rating</label>
+            <input
+              type="number"
+              step="0.1"
+              {...register("rating")}
+              className="p-2 border rounded w-32"
+            />
           </div>
 
-          {/* CALORIES & PREP TIME */}
-          <div className="flex gap-6 flex-wrap">
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Calories</label>
-              <input
-                {...register("calories")}
-                className="p-2 border rounded w-40"
-              />
-            </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Reviews</label>
+            <input
+              type="number"
+              {...register("reviews")}
+              className="p-2 border rounded w-32"
+            />
+          </div>
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Prep Time</label>
-              <input
-                {...register("prepTime")}
-                className="p-2 border rounded w-40"
-              />
-            </div>
+        {/* CALORIES & PREP TIME */}
+        <div className="flex gap-6 flex-wrap">
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Calories</label>
+            <input
+              {...register("calories")}
+              className="p-2 border rounded w-40"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">Prep Time</label>
+            <input
+              {...register("prepTime")}
+              className="p-2 border rounded w-40"
+            />
           </div>
         </div>
 
@@ -187,7 +204,6 @@ const AddItemPage = () => {
         {/* INGREDIENTS */}
         <div className="flex flex-col gap-3">
           <p className="font-semibold">Ingredients</p>
-
           {fields.map((field, index) => (
             <div key={field.id} className="flex gap-2">
               <input
@@ -195,7 +211,6 @@ const AddItemPage = () => {
                 className="p-2 border rounded flex-1"
                 placeholder="Ingredient name"
               />
-
               {fields.length > 1 && (
                 <button
                   type="button"
@@ -220,9 +235,10 @@ const AddItemPage = () => {
         {/* SUBMIT */}
         <button
           type="submit"
-          className="bg-orange-600 text-white active:scale-95 px-10 py-3 rounded-lg font-bold hover:bg-orange-700 transition"
+          disabled={isSubmitting}
+          className="bg-orange-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-orange-700 disabled:opacity-50"
         >
-          ADD PRODUCT
+          {isSubmitting ? "Adding..." : "ADD PRODUCT"}
         </button>
       </form>
     </div>

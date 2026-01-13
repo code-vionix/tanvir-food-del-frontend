@@ -11,23 +11,27 @@ import FoodDetailsPage from "./Pages/foodDetails/FoodDetailsPage";
 import LoginPage from "./Pages/login/LoginPage";
 import SignUpPage from "./Pages/signUp/SignUpPage";
 import Footer from "./components/Footer/Footer";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
+import { useAuth } from "./Contex/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+  const { user } = useAuth(); // user = { role: "admin" / "user" }
+
   return (
     <div className="app">
-      {/* 1. Navbar stays at the top */}
       <div className="w-5/6 mx-auto">
         <Navbar />
       </div>
 
       <Routes>
-        {/* 2. USER ROUTES */}
+        {/* USER ROUTES */}
         <Route
           path="/"
           element={
             <div className="w-5/6 mx-auto">
-              <Home />
+              {" "}
+              <Home />{" "}
             </div>
           }
         />
@@ -35,7 +39,8 @@ function App() {
           path="/cart"
           element={
             <div className="w-5/6 mx-auto">
-              <Cart />
+              {" "}
+              <Cart />{" "}
             </div>
           }
         />
@@ -43,7 +48,8 @@ function App() {
           path="/placeorder"
           element={
             <div className="w-5/6 mx-auto">
-              <PlaceOrder />
+              {" "}
+              <PlaceOrder />{" "}
             </div>
           }
         />
@@ -51,22 +57,39 @@ function App() {
           path="/details/:id"
           element={
             <div className="w-5/6 mx-auto">
-              <FoodDetailsPage />
+              {" "}
+              <FoodDetailsPage />{" "}
             </div>
           }
         />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
 
-        {/* 3. ADMIN SECTION (Full Width Layout) */}
-        <Route path="/admin" element={<Layout />}>
+        {/* AUTH ROUTES */}
+        <Route
+          path="/login"
+          element={!user ? <LoginPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/signup"
+          element={!user ? <SignUpPage /> : <Navigate to="/" />}
+        />
+
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["admin"]}>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="add" />} />
           <Route path="add" element={<AddItemPage />} />
           <Route path="list" element={<ListsPage />} />
           <Route path="orders" element={<OrdersPage />} />
         </Route>
       </Routes>
-      <ToastContainer />
+
+      <Toaster position="top-center" reverseOrder={false} />
       <Footer />
     </div>
   );

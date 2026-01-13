@@ -1,9 +1,12 @@
-import React from "react";
+/* eslint-disable react/no-unescaped-entities */
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { loginUser } from "@/services/auth.service";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
 
   const {
     register,
@@ -16,13 +19,31 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data) => {
-    console.log("Login Data:", data);
+    console.log(data);
 
-    // 🔐 Dummy login logic (replace with API)
-    if (data.role === "admin") {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/");
+    try {
+      setApiError("");
+
+      // data: { role, identifier, password }
+      const res = await loginUser(data);
+
+      if (res.success) {
+        // Save token & user info
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+
+        // Redirect based on role
+        if (res.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      setApiError(
+        err.response?.data?.message || "Login failed. Check your credentials."
+      );
     }
   };
 
@@ -50,6 +71,10 @@ export default function LoginForm() {
           Login
         </h3>
 
+        {apiError && (
+          <p className="mb-4 text-center text-sm text-red-500">{apiError}</p>
+        )}
+
         {/* FORM */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Role */}
@@ -66,14 +91,14 @@ export default function LoginForm() {
             </select>
           </div>
 
-          {/* Email / ID */}
+          {/* Email / User ID */}
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
               Email or User ID
             </label>
             <input
               type="text"
-              {...register("identifier", {
+              {...register("email", {
                 required: "Email or ID is required",
               })}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
@@ -117,9 +142,9 @@ export default function LoginForm() {
             {isSubmitting ? "Signing in..." : "Sign In"}
           </button>
 
-          {/* Forgot */}
-          <div className="text-center">
-            <p className="text-sm flex flex-col text-black ">
+          {/* Footer */}
+          <div className="text-center mt-2">
+            <p className="text-sm flex flex-col text-black">
               Forgot Password?
               <Link
                 to="/signup"

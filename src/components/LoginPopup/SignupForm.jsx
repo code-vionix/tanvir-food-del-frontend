@@ -1,6 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "@/services/auth.service";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -11,19 +17,41 @@ export default function SignupForm() {
   const password = watch("password");
 
   const onSubmit = async (data) => {
-    console.log("Signup Data:", data);
-    // 🔗 এখানে API call যাবে
+    try {
+      setApiError("");
+      const { fullName, email, password } = data;
+
+      const res = await registerUser({ fullName, email, password });
+
+      if (res.success) {
+        // Save token in localStorage
+        localStorage.setItem("token", res.token);
+
+        // Optional: save user info
+        localStorage.setItem("user", JSON.stringify(res.user));
+
+        // Redirect to home or dashboard
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      setApiError(
+        error.response?.data?.message || "Registration failed, try again"
+      );
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        {/* Header */}
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Create Account
         </h2>
 
-        {/* Form */}
+        {apiError && (
+          <p className="mb-4 text-center text-sm text-red-500">{apiError}</p>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
           <div>
@@ -115,7 +143,6 @@ export default function SignupForm() {
             )}
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -125,7 +152,6 @@ export default function SignupForm() {
           </button>
         </form>
 
-        {/* Footer */}
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
           <a href="/login" className="text-blue-500 hover:underline">
