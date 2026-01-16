@@ -23,24 +23,8 @@ const StoreContexProvider = ({ children }) => {
     fetchFoods();
   }, []);
 
-  const getTotalCartAmount = () => {
-    const totalAmount = 0;
-    return totalAmount;
-  };
-  // const getTotalCartAmount = () => {
-  //   let totalAmount = 0;
-  //   for (const item in cartItem) {
-  //     if (cartItem[item] > 0) {
-  //       let itemInfo = food_list.find((product) => product._id === item);
-  //       totalAmount += itemInfo.price * cartItem[item];
-  //     }
-  //   }
-  //   return totalAmount;
-  // };
-
   const contexValue = {
     food_list: allFoods,
-    getTotalCartAmount,
   };
   return (
     <StoreContex.Provider value={contexValue}>{children}</StoreContex.Provider>

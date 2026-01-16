@@ -2,11 +2,11 @@ import { useState } from "react";
 import { assets } from "@/Assets/assets";
 import { Button } from "../ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useFoodItem } from "@/Contex/StoreContex";
+import { useCartItem } from "@/Contex/CartContext";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("Home");
-  const { getTotalCartAmount } = useFoodItem();
+  const { getTotalCartAmount } = useCartItem();
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;

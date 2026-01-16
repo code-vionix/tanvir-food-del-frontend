@@ -56,34 +56,35 @@ const Cart = () => {
           </h1>
           <div className="flex justify-between">
             <h3 className="text-sm text-[#171717] ">Subtotal</h3>
-            <p className="text-sm text-[#171717] ">${0}</p>
+            <p className="text-sm text-[#171717] ">${getTotalCartAmount()}</p>
           </div>
           <hr className="my-3" />
           <div className="flex justify-between">
             <h3 className="text-sm text-[#171717] ">Delivery Fee</h3>
             <p className="text-sm text-[#171717] ">
-              {/* ${getTotalCartAmount() > 0 ? 2 : 0} */}
+              ${getTotalCartAmount() > 0 ? 20 : 0}
             </p>
           </div>
           <hr className="my-3" />
           <div className="flex justify-between">
             <h3 className="text-black font-medium text-lg">Total</h3>
             <p className="text-black font-medium text-lg">
-              {/* ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 2 : 0} */}
+              ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 20 : 0}
             </p>
           </div>
 
-          <button
-            onClick={() => navigate("/placeorder")}
-            className="bg-tomato px-5 mt-4 py-3 text-white text-sm rounded transition duration-300 ease-in-out hover:bg-[#f3493d]"
-          >
-            PROCEED TO CHECKOUT
-          </button>
+          {getTotalCartAmount() > 1 && (
+            <button
+              onClick={() => navigate("/placeorder")}
+              className="bg-tomato px-5 mt-4 py-3 text-white text-sm rounded transition duration-300 ease-in-out hover:bg-[#f3493d]"
+            >
+              PROCEED TO CHECKOUT
+            </button>
+          )}
         </div>
         <div className="flex-[1] order-1 md:order-2">
           <div>
             <p className="text-sm text-[#171717] ">
-              {" "}
               If you have a promo code, enter here.
             </p>
             <div className="bg-[#eaeaea] mt-2 rounded flex justify-between">

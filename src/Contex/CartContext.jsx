@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import { addToCartAPI, getCart, removeFromCart } from "@/services/cart.service";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useFoodItem } from "./StoreContex";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState({});
   const [loading, setLoading] = useState(true);
+  const { food_list } = useFoodItem();
 
   useEffect(() => {
     loadCart();
@@ -75,9 +77,27 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const getTotalCartAmount = () => {
+    let totalAmount = 0;
+    for (const item in cartItem) {
+      if (cartItem[item] > 0) {
+        let itemInfo = food_list.find((product) => product._id === item);
+        totalAmount += itemInfo.price * cartItem[item];
+      }
+    }
+    return totalAmount;
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItem, addToCart, removeToCart, loading, loadCart }}
+      value={{
+        cartItem,
+        addToCart,
+        removeToCart,
+        loading,
+        loadCart,
+        getTotalCartAmount,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -10,14 +10,17 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFoodItem } from "@/Contex/StoreContex";
+import { useCartItem } from "@/Contex/CartContext";
+import FoodCartMini from "@/components/FoodDisplay/FoodCartMini";
 
 const FoodDetailsPage = () => {
-  const [quantity, setQuantity] = useState(1);
   const { food_list } = useFoodItem();
   const [foodData, setFoodData] = useState({});
+  const { addToCart, cartItem } = useCartItem();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const foodDatat = {
     name: "Mediterranean Quinoa Salad",
@@ -51,8 +54,16 @@ const FoodDetailsPage = () => {
     });
   }, []);
 
+  const handleCart = async () => {
+    if (!cartItem || Object.keys(cartItem).length === 0) {
+      await addToCart(foodData?._id);
+    }
+
+    navigate("/cart");
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white/60">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* LEFT: Hero Image with Gradient */}
         <div className="relative group overflow-hidden rounded-3xl shadow-2xl h-[400px] md:h-[600px]">
@@ -114,7 +125,7 @@ const FoodDetailsPage = () => {
             <div className="flex flex-wrap gap-3">
               {foodData?.ingredients?.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full border border-gray-200 hover:border-orange-300 transition-colors"
                 >
                   <span className="text-sm font-medium text-gray-700">
@@ -128,26 +139,17 @@ const FoodDetailsPage = () => {
           <hr className="border-gray-200" />
 
           {/* Quantity & Add to Cart */}
-          <div className="flex items-center gap-6 mt-4">
-            <div className="flex items-center gap-3 bg-secondary rounded-full p-1">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-card shadow-soft hover:shadow-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-              >
-                <Minus size={20} />
-              </button>
-              <span className="w-10 text-center font-bold text-xl">
-                {quantity}
-              </span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-card shadow-soft hover:shadow-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-              >
-                <Plus size={20} />
-              </button>
+          <div className="relative inline-flex">
+            {/* Mini Cart Badge */}
+            <div className="absolute left-56 -top-4 w-20 h-20 rounded-full items-center justify-center">
+              <FoodCartMini id={foodData?._id} />
             </div>
 
-            <Button className="flex-shrink-0 h-12 px-6 md:px-8 bg-orange-500 font-semibold rounded-full shadow-glow hover:scale-105 hover:bg-orange-600 transition-all duration-300">
+            {/* Main Button */}
+            <Button
+              onClick={handleCart}
+              className="flex items-center h-12 px-6 md:px-8 bg-orange-500 font-semibold rounded-full shadow-glow hover:scale-105 hover:bg-orange-600 transition-all duration-300"
+            >
               <ShoppingCart className="w-5 h-5 mr-2" />
               Add to Cart
             </Button>

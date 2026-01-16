@@ -21,7 +21,7 @@ const FoodCartMini = ({ id }) => {
             e.stopPropagation();
             addToCart(id);
           }}
-          className="cursor-pointer"
+          className="cursor-pointer ring-1 ring-orange-500 rounded-full"
         />
       ) : (
         <div className="flex items-center gap-3">
