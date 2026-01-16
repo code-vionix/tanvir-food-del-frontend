@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 /* eslint-disable react/prop-types */
-const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow }) => {
+const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow, codOrder }) => {
+  const navigate = useNavigate();
   return (
     <>
       {/* Backdrop */}
@@ -30,6 +33,7 @@ const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow }) => {
             onClick={() => {
               setShow(false);
               setIsPaid(false);
+              navigate(`/myorder`);
             }}
           >
             Close

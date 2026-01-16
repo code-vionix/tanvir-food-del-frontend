@@ -3,16 +3,22 @@ import { assets } from "@/Assets/assets";
 import { Button } from "../ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCartItem } from "@/Contex/CartContext";
+import ProfileDropdown from "./ProfileDropdown";
+import { useAuth } from "@/Contex/AuthContext";
+import SearchModal from "./SearchModal";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("Home");
   const { getTotalCartAmount } = useCartItem();
+  const [show, setShow] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
 
   return (
     <div className="flex justify-between items-center py-5 ">
+      <SearchModal show={show} setShow={setShow} />
       <Link to="/">
         <img
           src={assets.logo}
@@ -68,7 +74,12 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center lg:gap-10 md:gap-6 sm:gap-4 gap-2">
-            <img src={assets.search_icon} className="cursor-pointer" alt="" />
+            <img
+              onClick={() => setShow(true)}
+              src={assets.search_icon}
+              className="cursor-pointer"
+              alt=""
+            />
 
             <div className="relative">
               <Link to="/cart">
@@ -82,14 +93,17 @@ const Navbar = () => {
                 <div className="absolute -top-2 -right-1 w-[10px] h-[10px] bg-tomato rounded-full"></div>
               )}
             </div>
+            {!user?.email && (
+              <Button
+                onClick={() => navigate("/login")}
+                variant="outline"
+                size="sm"
+              >
+                Sign-in
+              </Button>
+            )}
 
-            <Button
-              onClick={() => navigate("/login")}
-              variant="outline"
-              size="sm"
-            >
-              Sign-in
-            </Button>
+            {user?.email && <ProfileDropdown />}
           </div>
         </>
       )}

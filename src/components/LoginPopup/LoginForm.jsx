@@ -37,6 +37,7 @@ export default function LoginForm() {
           navigate("/admin");
         } else {
           navigate("/");
+          window.location.reload();
         }
       }
     } catch (err) {
