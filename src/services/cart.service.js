@@ -7,7 +7,8 @@ export const getCart = async () => {
 };
 
 // Add / increment
-export const addToCart = async (foodId) => {
+export const addToCartAPI = async (foodId) => {
+  console.log(foodId);
   const res = await API.post("/cart/add", { foodId });
   return res.data;
 };

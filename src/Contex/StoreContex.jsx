@@ -1,43 +1,45 @@
-import { createContext, useContext, useState } from "react";
-import { food_list } from "../Assets/assets";
-import { toast } from "react-toastify";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getAllFoods } from "@/services/food.service";
 
 export const StoreContex = createContext(null);
 
 // eslint-disable-next-line react/prop-types
 const StoreContexProvider = ({ children }) => {
-  const [cartItem, setCartItem] = useState({});
+  const [allFoods, setAllFoods] = useState([]);
+  // const [loading,setLoading] = useState(true)
 
-  const addToCart = (itemId) => {
-    if (!cartItem[itemId]) {
-      setCartItem((prev) => ({ ...prev, [itemId]: 1 }));
-      toast.success("Item add successfully");
-    } else {
-      setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-      toast.success("Item add successfully");
+  const fetchFoods = async () => {
+    try {
+      const food = await getAllFoods();
+      setAllFoods(food.foods || []);
+      // setLoading(false);
+    } catch (err) {
+      console.error("Failed to fetch foods:", err);
+      // setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchFoods();
+  }, []);
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItem) {
-      if (cartItem[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItem[item];
-      }
-    }
+    const totalAmount = 0;
     return totalAmount;
   };
+  // const getTotalCartAmount = () => {
+  //   let totalAmount = 0;
+  //   for (const item in cartItem) {
+  //     if (cartItem[item] > 0) {
+  //       let itemInfo = food_list.find((product) => product._id === item);
+  //       totalAmount += itemInfo.price * cartItem[item];
+  //     }
+  //   }
+  //   return totalAmount;
+  // };
 
-  const removeToCart = (itemId) => {
-    setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-    toast.error("Item remove successfully");
-  };
   const contexValue = {
-    food_list,
-    addToCart,
-    cartItem,
-    removeToCart,
+    food_list: allFoods,
     getTotalCartAmount,
   };
   return (

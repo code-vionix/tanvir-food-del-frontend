@@ -1,9 +1,10 @@
+import { useCartItem } from "@/Contex/CartContext";
 import { useFoodItem } from "@/Contex/StoreContex";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { food_list, cartItem, removeToCart, getTotalCartAmount } =
-    useFoodItem();
+  const { food_list } = useFoodItem();
+  const { cartItem, removeToCart, getTotalCartAmount } = useCartItem();
   const navigate = useNavigate();
 
   return (
@@ -55,20 +56,20 @@ const Cart = () => {
           </h1>
           <div className="flex justify-between">
             <h3 className="text-sm text-[#171717] ">Subtotal</h3>
-            <p className="text-sm text-[#171717] ">${getTotalCartAmount()}</p>
+            <p className="text-sm text-[#171717] ">${0}</p>
           </div>
           <hr className="my-3" />
           <div className="flex justify-between">
             <h3 className="text-sm text-[#171717] ">Delivery Fee</h3>
             <p className="text-sm text-[#171717] ">
-              ${getTotalCartAmount() > 0 ? 2 : 0}
+              {/* ${getTotalCartAmount() > 0 ? 2 : 0} */}
             </p>
           </div>
           <hr className="my-3" />
           <div className="flex justify-between">
             <h3 className="text-black font-medium text-lg">Total</h3>
             <p className="text-black font-medium text-lg">
-              ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 2 : 0}
+              {/* ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 2 : 0} */}
             </p>
           </div>
 

@@ -10,9 +10,11 @@ import { assets } from "@/Assets/assets";
 import { useFoodItem } from "@/Contex/StoreContex";
 import { Link } from "react-router-dom";
 
+import FoodCartMini from "../FoodDisplay/FoodCartMini";
+
 // eslint-disable-next-line react/prop-types
 const FoodItems = ({ id, name, image, price, description, category }) => {
-  const { addToCart, cartItem, removeToCart } = useFoodItem();
+  // const { addToCart, cartItem, removeToCart } = useFoodItem();
 
   return (
     <div className="max-w-[300px]">
@@ -23,7 +25,10 @@ const FoodItems = ({ id, name, image, price, description, category }) => {
             className="rounded-t-md mb-2 w-full transition-all hover:scale-105"
             alt=""
           />
-          <div className="absolute right-2 bottom-3 bg-white rounded-full p-1">
+
+          <FoodCartMini id={id} />
+
+          {/* <div className="absolute right-2 bottom-3 bg-white rounded-full p-1">
             {!cartItem[id] ? (
               <img
                 src={assets.add_icon_white}
@@ -47,7 +52,7 @@ const FoodItems = ({ id, name, image, price, description, category }) => {
                 />
               </div>
             )}
-          </div>
+          </div> */}
         </div>
         <CardHeader>
           <Link to={`/details/${id}`}>{name}</Link>

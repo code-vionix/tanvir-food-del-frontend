@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 // src/components/ProtectedRoute.jsx
 import { Navigate } from "react-router-dom";
 
