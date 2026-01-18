@@ -5,7 +5,7 @@ const SearchModal = ({ show, setShow }) => {
   const [query, setQuery] = useState("");
 
   const dummyResults = [
-    "Chicken Burger",
+    "Chicken Burgersss",
     "Pizza Large",
     "Cold Coffee",
     "Beef Sandwich",
