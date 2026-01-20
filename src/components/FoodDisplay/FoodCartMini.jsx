@@ -7,8 +7,6 @@ const FoodCartMini = ({ id }) => {
   if (loading) return null;
   const qty = cartItem[id] || 0;
 
-  console.log(cartItem["6966c12027cdcd64d968bd18"]);
-
   return (
     <div
       className="absolute right-2 bottom-3 bg-white rounded-full p-1"

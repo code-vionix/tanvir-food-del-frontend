@@ -2,6 +2,8 @@
 import { addToCartAPI, getCart, removeFromCart } from "@/services/cart.service";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useFoodItem } from "./StoreContex";
+import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const CartContext = createContext();
 
@@ -9,6 +11,8 @@ export const CartProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { food_list } = useFoodItem();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCart();
@@ -33,6 +37,10 @@ export const CartProvider = ({ children }) => {
 
   // ✅ PERFECT OPTIMISTIC ADD
   const addToCart = async (id) => {
+    if (!user) {
+      navigate("/login");
+    }
+
     setCartItem((prev) => ({
       ...prev,
       [id]: (prev[id] || 0) + 1,

@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFoodItem } from "@/Contex/StoreContex";
 import { useCartItem } from "@/Contex/CartContext";
 import FoodCartMini from "@/components/FoodDisplay/FoodCartMini";
+import { useAuth } from "@/Contex/AuthContext";
 
 const FoodDetailsPage = () => {
   const { food_list } = useFoodItem();
@@ -21,6 +22,7 @@ const FoodDetailsPage = () => {
   const { addToCart, cartItem } = useCartItem();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const foodDatat = {
     name: "Mediterranean Quinoa Salad",
@@ -55,11 +57,12 @@ const FoodDetailsPage = () => {
   }, []);
 
   const handleCart = async () => {
-    if (!cartItem || Object.keys(cartItem).length === 0) {
+    if (!user) {
+      navigate("/login");
+    } else if (!cartItem || Object.keys(cartItem).length === 0) {
       await addToCart(foodData?._id);
+      navigate("/cart");
     }
-
-    navigate("/cart");
   };
 
   return (
