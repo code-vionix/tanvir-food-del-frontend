@@ -4,8 +4,6 @@ import {
   Clock,
   Flame,
   Leaf,
-  Plus,
-  Minus,
   ShoppingCart,
   CheckCircle2,
 } from "lucide-react";
@@ -57,12 +55,20 @@ const FoodDetailsPage = () => {
   }, []);
 
   const handleCart = async () => {
+    //  Not logged in
     if (!user) {
       navigate("/login");
-    } else if (!cartItem || Object.keys(cartItem).length === 0) {
-      await addToCart(foodData?._id);
-      navigate("/cart");
+      return;
     }
+
+    // Logged in
+    const isCartEmpty = !cartItem || Object.keys(cartItem).length === 0;
+
+    // ➕ Add item only if cart is empty or item not exists
+    if (isCartEmpty || !cartItem[foodData?._id]) {
+      await addToCart(foodData?._id);
+    }
+    navigate("/cart");
   };
 
   return (
@@ -104,8 +110,7 @@ const FoodDetailsPage = () => {
                 <span className="font-bold text-orange-700">
                   {foodData?.rating}
                   <span className="text-gray-500 ml-4 bg-transparent">
-                    ({Math.round(Math.random() * 500)}) Verified Customer
-                    Reviews
+                    ({foodData?.reviews}) Verified Customer Reviews
                   </span>
                 </span>
               </div>

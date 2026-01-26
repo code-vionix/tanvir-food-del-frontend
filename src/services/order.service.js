@@ -8,18 +8,23 @@ export const placeOrder = async () => {
 
 // Get user orders
 export const getUserOrders = async () => {
-  const res = await API.get("/orders");
+  const res = await API.get("/order/myorder");
   return res.data;
 };
 
 // Admin: get all orders
 export const getAllOrders = async () => {
-  const res = await API.get("/orders/all");
+  const res = await API.get("/order/all");
   return res.data;
 };
 
 // Admin: update order status
 export const updateOrderStatus = async (orderId, status) => {
-  const res = await API.patch(`/orders/${orderId}/status`, { status });
+  const res = await API.patch(`/order/${orderId}/status`, { status });
   return res.data;
+};
+
+export const getOrderById = async (orderId) => {
+  const { data } = await API.get(`/order/${orderId}`);
+  return data;
 };

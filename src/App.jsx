@@ -14,6 +14,8 @@ import Footer from "./components/Footer/Footer";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./Contex/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MyOrders from "./Pages/myorder/MyOrdersPage";
+import PaymentSuccess from "./Pages/payment-success/PaymentSuccess";
 
 function App() {
   const { user } = useAuth(); // user = { role: "admin" / "user" }
@@ -48,8 +50,15 @@ function App() {
           path="/placeorder"
           element={
             <div className="w-5/6 mx-auto">
-              {" "}
-              <PlaceOrder />{" "}
+              <PlaceOrder />
+            </div>
+          }
+        />
+        <Route
+          path="/myorders"
+          element={
+            <div className="w-5/6 mx-auto">
+              <MyOrders />
             </div>
           }
         />
@@ -59,6 +68,14 @@ function App() {
             <div className="w-5/6 mx-auto">
               {" "}
               <FoodDetailsPage />{" "}
+            </div>
+          }
+        />
+        <Route
+          path="/payment-success"
+          element={
+            <div className="w-5/6 mx-auto">
+              <PaymentSuccess />
             </div>
           }
         />

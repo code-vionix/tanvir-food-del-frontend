@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useCartItem } from "@/Contex/CartContext";
-import API from "@/services/api";
 import PaymentModal from "@/components/placeholder/PaymentModal";
 
 const PlaceOrder = () => {

@@ -34,16 +34,17 @@ export default function LoginForm() {
 
         // Redirect based on role
         if (res.user.role === "admin") {
+          window.location.reload();
           navigate("/admin");
         } else {
-          navigate("/");
           window.location.reload();
+          navigate("/");
         }
       }
     } catch (err) {
       console.error(err);
       setApiError(
-        err.response?.data?.message || "Login failed. Check your credentials."
+        err.response?.data?.message || "Login failed. Check your credentials.",
       );
     }
   };

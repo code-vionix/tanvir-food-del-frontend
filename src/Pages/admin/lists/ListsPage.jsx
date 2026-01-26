@@ -25,7 +25,7 @@ const ListsPage = () => {
   const handleDelete = async (id) => {
     // Show confirmation dialog
     const isConfirmed = window.confirm(
-      "Are you sure you want to delete this item?"
+      "Are you sure you want to delete this item?",
     );
     if (!isConfirmed) return;
 
@@ -70,7 +70,7 @@ const ListsPage = () => {
             />
             <p>{item.name}</p>
             <p className="hidden md:block">{item.category}</p>
-            <p>৳{item.price}</p>
+            <p>${item.price}</p>
             <p
               onClick={() => handleDelete(item._id)}
               className="cursor-pointer text-red-500 font-bold px-2 hover:scale-110 transition-all"

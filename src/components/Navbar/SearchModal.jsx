@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
 import { Search, X, Clock } from "lucide-react";
 import { useFoodItem } from "@/Contex/StoreContex";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const SearchModal = ({ show, setShow }) => {
   const [query, setQuery] = useState("");
   const { food_list } = useFoodItem();
+  const navigate = useNavigate();
 
   const recentSearches = ["Salad", "Rolls", "Deserts", "Noodles"];
 
@@ -57,11 +59,13 @@ const SearchModal = ({ show, setShow }) => {
             {!query && (
               <>
                 <p className="text-xs text-gray-500 mb-2">Recent Searches</p>
-                {recentSearches.map((item, i) => (
+                {recentSearches.map((item) => (
                   <div
-                    key={i}
+                    key={item._id}
                     className="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded cursor-pointer"
-                    onClick={() => setQuery(item)}
+                    onClick={() => {
+                      setQuery(item);
+                    }}
                   >
                     <Clock size={14} className="text-gray-400" />
                     <span className="text-sm">{item}</span>
@@ -76,8 +80,13 @@ const SearchModal = ({ show, setShow }) => {
                 {searchResults.length > 0 ? (
                   searchResults.map((item) => (
                     <div
+                      onClick={() => {
+                        setShow(false);
+                        setQuery("");
+                        navigate(`/details/${item?._id}`);
+                      }}
                       key={item._id}
-                      className="flex items-center gap-3 px-2 py-2 hover:bg-gray-100 rounded cursor-pointer"
+                      className="flex items-center  gap-3 px-2 py-2 hover:bg-gray-100 rounded cursor-pointer"
                     >
                       <img
                         src={item.image}

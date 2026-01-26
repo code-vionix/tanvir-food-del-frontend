@@ -32,8 +32,6 @@ const PaymentModal = ({ formData, setShow }) => {
 
       const res = await API.post("/order/cod", formData);
       setCodOrder(res.data.order);
-
-      //   window.location.reload();
     } catch (error) {
       console.log(error);
       setIsPaid(false);

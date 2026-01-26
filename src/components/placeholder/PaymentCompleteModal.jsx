@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
-const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow, codOrder }) => {
+const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -33,7 +33,8 @@ const PaymentCompleteModal = ({ setIsPaid, isPaid, setShow, codOrder }) => {
             onClick={() => {
               setShow(false);
               setIsPaid(false);
-              navigate(`/myorder`);
+              navigate(`/myorders`);
+              window.location.reload();
             }}
           >
             Close
