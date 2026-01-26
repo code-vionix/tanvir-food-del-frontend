@@ -1,4 +1,3 @@
-import React from "react";
 import { menu_list } from "../../Assets/assets";
 
 const ExploreMenu = ({ category, setCategory }) => {
@@ -21,7 +20,7 @@ const ExploreMenu = ({ category, setCategory }) => {
               key={index}
               onClick={() =>
                 setCategory((prev) =>
-                  prev === item.menu_name ? "All" : item.menu_name
+                  prev === item.menu_name ? "All" : item.menu_name,
                 )
               }
             >

@@ -133,10 +133,20 @@ const AddItemPage = () => {
               {...register("category")}
               className="p-2 border rounded w-40"
             >
-              <option value="Salad">Salad</option>
-              <option value="Rolls">Rolls</option>
-              <option value="Deserts">Deserts</option>
-              <option value="Sandwich">Sandwich</option>
+              {[
+                "Salad",
+                "Rolls",
+                "Deserts",
+                "Sandwich",
+                "Cake",
+                "Pure Veg",
+                "Pasta",
+                "Noodles",
+              ].map((v, i) => (
+                <option key={i} value={v}>
+                  {v}
+                </option>
+              ))}
             </select>
           </div>
 
