@@ -95,7 +95,6 @@ const PlaceOrder = () => {
     }
     setShow(true);
   };
-  console.log(show);
 
   const InputError = ({ msg }) =>
     msg ? <p className="text-red-500 text-sm mt-1">{msg}</p> : null;
@@ -249,14 +248,14 @@ const PlaceOrder = () => {
 
         <div className="flex justify-between">
           <h3>Delivery Fee</h3>
-          <p>${getTotalCartAmount() > 0 ? 20 : 0}</p>
+          <p>${getTotalCartAmount() > 0 ? 2 : 0}</p>
         </div>
 
         <hr className="my-3" />
 
         <div className="flex justify-between font-bold">
           <h3>Total</h3>
-          <p>${getTotalCartAmount() > 0 ? getTotalCartAmount() + 20 : 0}</p>
+          <p>${getTotalCartAmount() > 0 ? getTotalCartAmount() + 2 : 0}</p>
         </div>
       </div>
     </div>

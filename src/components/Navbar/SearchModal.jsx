@@ -59,9 +59,9 @@ const SearchModal = ({ show, setShow }) => {
             {!query && (
               <>
                 <p className="text-xs text-gray-500 mb-2">Recent Searches</p>
-                {recentSearches.map((item) => (
+                {recentSearches.map((item, i) => (
                   <div
-                    key={item._id}
+                    key={i}
                     className="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded cursor-pointer"
                     onClick={() => {
                       setQuery(item);
@@ -95,7 +95,7 @@ const SearchModal = ({ show, setShow }) => {
                       />
                       <div className="flex-1">
                         <p className="text-sm font-medium">{item.name}</p>
-                        <p className="text-xs text-gray-500">৳ {item.price}</p>
+                        <p className="text-xs text-gray-500">$ {item.price}</p>
                       </div>
                     </div>
                   ))

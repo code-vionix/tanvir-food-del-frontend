@@ -62,14 +62,14 @@ const Cart = () => {
           <div className="flex justify-between">
             <h3 className="text-sm text-[#171717] ">Delivery Fee</h3>
             <p className="text-sm text-[#171717] ">
-              ${getTotalCartAmount() > 0 ? 20 : 0}
+              ${getTotalCartAmount() > 0 ? 2 : 0}
             </p>
           </div>
           <hr className="my-3" />
           <div className="flex justify-between">
             <h3 className="text-black font-medium text-lg">Total</h3>
             <p className="text-black font-medium text-lg">
-              ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 20 : 0}
+              ${getTotalCartAmount() > 0 ? getTotalCartAmount() + 2 : 0}
             </p>
           </div>
 
