@@ -28,7 +28,7 @@ const Navbar = () => {
       </Link>
 
       {!["/login", "/admin", "/signup"].some((path) =>
-        currentPath.includes(path)
+        currentPath.includes(path),
       ) && (
         <>
           <ul className="lg:flex gap-4 text-textColor hidden">
@@ -53,7 +53,7 @@ const Navbar = () => {
             </a>
 
             <a
-              href="#mobile_app"
+              href="/#mobile_app"
               className={`cursor-pointer text-[18px] ${
                 menu === "Mobile app" ? "border-b-2 border-textColor" : ""
               }`}

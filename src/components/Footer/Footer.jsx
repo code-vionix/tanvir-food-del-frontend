@@ -1,5 +1,6 @@
 import { assets } from "@/Assets/assets";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -13,16 +14,18 @@ const Footer = () => {
             <img src={assets.logo} alt="" />
           </div>
           <p>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal.
+            QuickBite is a fast and reliable food delivery platform that brings
+            your favorite meals straight to your doorstep. Order easily, get
+            fresh food, and enjoy quick delivery anytime, anywhere.
           </p>
           <div className="flex gap-4">
-            <img
-              className="cursor-pointer transition-all hover:scale-105"
-              src={assets.facebook_icon}
-              alt=""
-            />
+            <Link to="https://www.facebook.com/randomtanvir07">
+              <img
+                className="cursor-pointer transition-all hover:scale-105"
+                src={assets.facebook_icon}
+                alt=""
+              />
+            </Link>
             <img
               className="cursor-pointer transition-all hover:scale-105"
               src={assets.twitter_icon}
@@ -58,7 +61,7 @@ const Footer = () => {
         <hr className="my-4" />
       </div>
       <p className="p-6 text-center ">
-        Copyright 2024 @ Tomato.com - All Right Reserved.{" "}
+        Copyright 2026 @ codevionix.quickbite.com - All Right Reserved.
       </p>
     </div>
   );

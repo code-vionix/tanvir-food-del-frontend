@@ -55,7 +55,7 @@ const MyOrders = () => {
       {/* ORDERS */}
       <div className="space-y-6">
         {orders.map((order) => {
-          const StatusIcon = statusConfig[order.status]?.icon || Clock;
+          const StatusIcon = statusConfig[order?.status]?.icon || Clock;
 
           return (
             <div key={order._id} className="border rounded-xl p-4 bg-white">
@@ -63,7 +63,7 @@ const MyOrders = () => {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <p className="text-sm text-gray-500">
-                    Order ID: <span className="font-medium">{order._id}</span>
+                    Order ID: <span className="font-medium">{order?._id}</span>
                   </p>
                   <p className="text-xs text-gray-400">
                     Payment: {order.paymentStatus}
@@ -89,22 +89,22 @@ const MyOrders = () => {
                   >
                     {/* IMAGE */}
                     <img
-                      src={item.food.image}
-                      alt={item.food.name}
+                      src={item?.food?.image}
+                      alt={item?.food?.name}
                       className="w-12 h-12 rounded object-cover"
                     />
 
                     {/* NAME + ID */}
                     <div className="flex-1">
-                      <p className="text-sm font-medium">{item.food.name}</p>
+                      <p className="text-sm font-medium">{item?.food?.name}</p>
                       <p className="text-xs text-gray-400">
-                        Food ID: {item.food._id}
+                        Food ID: {item?.food?._id}
                       </p>
                     </div>
 
                     {/* QUANTITY */}
                     <div className="text-sm font-semibold">
-                      × {item.quantity}
+                      × {item?.quantity}
                     </div>
                   </div>
                 ))}
@@ -114,15 +114,15 @@ const MyOrders = () => {
               <div className="border-t pt-3 text-sm space-y-1">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>$ {order.subtotal}</span>
+                  <span>$ {order?.subtotal}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Delivery Fee</span>
-                  <span>$ {order.deliveryFee}</span>
+                  <span>$ {order?.deliveryFee}</span>
                 </div>
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span>$ {order.totalPrice}</span>
+                  <span>$ {order?.totalPrice}</span>
                 </div>
               </div>
             </div>
